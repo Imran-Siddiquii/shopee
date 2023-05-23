@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import FilterSection from "./components/FilterSection";
-import Loader from "./components/Loader";
-import ProductList from "./components/ProductList";
-import Sort from "./components/Sort";
-import { filterProducts } from "./Redux/Reducers/FilterProductsSlice";
+import FilterSection from "../components/FilterSection";
+import Loader from "../components/Loader";
+import ProductList from "../components/ProductList";
+import Sort from "../components/Sort";
+import { filterProducts } from "../Redux/Reducers/FilterProductsSlice";
 
 const Products = () => {
   const dispatch = useDispatch();

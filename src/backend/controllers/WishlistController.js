@@ -1,6 +1,5 @@
 import { Response } from "miragejs";
 import { formatDate, requiresAuth } from "../utils/authUtils";
-import { Portal } from "@mui/material";
 
 /**
  * All the routes related to Wishlist are present here.

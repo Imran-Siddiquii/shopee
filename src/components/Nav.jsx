@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { FiShoppingCart } from "react-icons/fi";
+// import { FiShoppingCart } from "react-icons/fi";
 import { CgMenu, CgClose } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -11,21 +11,23 @@ import {
 } from "react-icons/ai";
 import { Tooltip } from "@mui/material";
 import { Button } from "../styles/Button";
-import { Logout } from "../Redux/Auth/AuthSlice";
+import { Logout } from "../Redux/auth";
 
 const Navbar = () => {
-  const dispatch=useDispatch()
- const navigate= useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { total_item } = useSelector((state) => state.CartItems);
+  const { data } = useSelector((state) => state.WishlistItem);
   const [menuIcon, setMenuIcon] = useState();
   const Auth = localStorage.getItem("token");
-  const {token}=useSelector(state=>state.Auth)
+  const { token } = useSelector((state) => state.Auth);
   useEffect(() => {
-    // debugger;
-    if(token){
-      navigate('/')
+
+    if (token) {
+      navigate("/");
     }
-  }, [token]);
+    
+  }, [token]); //eslint-disable-line
   return (
     <Nav>
       <div className={menuIcon ? "navbar active" : "navbar"}>
@@ -63,7 +65,7 @@ const Navbar = () => {
                   className="cart-trolley"
                   onClick={() => setMenuIcon(false)}
                 />
-                <span className="cart-total--item">{total_item}</span>
+                <span className="cart-total--item">{data?.length}</span>
               </NavLink>
             </Tooltip>
           </li>
@@ -72,8 +74,8 @@ const Navbar = () => {
               <Button
                 className="button-style"
                 onClick={() => {
-                  dispatch(Logout())
-                  localStorage.removeItem('token')
+                  dispatch(Logout());
+                  localStorage.removeItem("token");
                 }}
               >
                 Log Out

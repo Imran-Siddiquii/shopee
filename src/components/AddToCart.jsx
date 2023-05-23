@@ -1,14 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { FaCheck } from "react-icons/fa";
 import CartAmountToggle from "./CartAmountToggle";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../styles/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AddItemInCart, addItem } from "../Redux/Reducers/AddToCartSlice";
-import axios from "axios";
+import {
+  AddWishlist,
+} from "../Redux/Reducers/Wishlist/AddWishlistItemSlice";
 
 const AddToCart = ({ product }) => {
+  const {isInWishlist}=useSelector(state=>state.WishlistItem)
+  console.log(isInWishlist,"check in wishlist")
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -26,7 +30,7 @@ const AddToCart = ({ product }) => {
   };
   const addToCart = () => {
     if (token) {
-      dispatch(AddItemInCart(product))
+      dispatch(AddItemInCart(product));
       dispatch(addItem({ id, amount, color, product }));
       navigate("/cart");
     } else {
@@ -34,22 +38,13 @@ const AddToCart = ({ product }) => {
     }
   };
 
-  const wishList = async () => {
-    const options = {
-      method:"POST",
-      headers: {
-        authorization: localStorage.getItem("token"),
-      },
-      
-      body:JSON.stringify(product)
-    };
-    try {
-      const res = await fetch("/api/user/wishlist", options);
-      console.log(await res.json());
-    } catch (err) {
-      console.log(err);
+  const addToWishlist=()=>{
+    if (token) {
+      dispatch(AddWishlist(product))
+    } else {
+      navigate("/login");
     }
-  };
+  }
 
   return (
     <Wrapper>
@@ -83,10 +78,10 @@ const AddToCart = ({ product }) => {
       </Button>
       <Button
         className="btn"
-        onClick={() => wishList()}
-        // onClick={() => dispatch(addItem({ id, amount, color, product }))}
+        disabled={isInWishlist}
+        onClick={addToWishlist}
       >
-        Add To Wishlist
+       {!isInWishlist?"Add To Wishlist":"Wishlisted"}
       </Button>
     </Wrapper>
   );

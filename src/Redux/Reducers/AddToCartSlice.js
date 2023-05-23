@@ -46,7 +46,7 @@ const AddToCartSlice = createSlice({
           color,
           amount,
           price: product.price,
-          image: product.image[0].url,
+          image: product?.image[0]?.url,
           max: product.stock,
         };
         state.cart = [...state.cart, productsItemToCart];
@@ -121,7 +121,7 @@ export const {
 export default AddToCartSlice.reducer;
 
 
-export const AddItemInCart=(product)=>{
+export const  AddItemInCart=(product)=>{
   return async function postItem(dispatch){ 
     // console.log(product)
     const options={
@@ -129,7 +129,7 @@ export const AddItemInCart=(product)=>{
       headers:{
         authorization: localStorage.getItem('token')
       },
-      body:JSON.stringify(product)
+      body:JSON.stringify({product})
     }
     try {
           const res= await fetch("/api/user/cart",options)

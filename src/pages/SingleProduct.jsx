@@ -1,23 +1,25 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchSingleProducts } from "./Redux/Reducers/SingleProductSlice";
-import MyImage from "./components/MyImage";
-import { Container } from "./styles/Container";
-import FormatPrice from "./Helpers/FormatPrice";
+import { fetchSingleProducts } from "../Redux/Reducers/SingleProductSlice";
+import MyImage from "../components/MyImage";
+import { Container } from "../styles/Container";
+import FormatPrice from "../utils/FormatPrice";
 import { MdSecurity } from "react-icons/md";
 import { TbTruckDelivery, TbReplace } from "react-icons/tb";
 import styled from "styled-components";
-import PageNavigation from "./components/PageNavigation";
-import Stars from "./components/Stars";
-import AddToCart from "./components/AddToCart";
-import Loader from "./components/Loader";
+import PageNavigation from "../components/PageNavigation";
+import Stars from "../components/Stars";
+import AddToCart from "../components/AddToCart";
+import Loader from "../components/Loader";
+import { isWishlisted } from "../Redux/Reducers/Wishlist/AddWishlistItemSlice";
 
 const SingleProduct = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   useEffect(() => {
     dispatch(fetchSingleProducts(id));
+    dispatch(isWishlisted(id));
     // eslint-disable-next-line
   }, [id]);
 

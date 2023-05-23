@@ -3,8 +3,9 @@ import AddToCartSlice from "../Reducers/AddToCartSlice";
 import FilterProductsSlice from "../Reducers/FilterProductsSlice";
 import storeProducts from "../Reducers/Products";
 import SingleProductSlice from "../Reducers/SingleProductSlice";
-import Auth from "../Auth/AuthSlice";
-import WishlistSlice from "../Reducers/WishlistSlice";
+import Auth from "../auth";
+import WishlistSlice from "../Reducers/Wishlist/WishlistSlice";
+import AddWishlistItemSlice from "../Reducers/Wishlist/AddWishlistItemSlice";
 export const store = configureStore({
   reducer: {
     allProducts: storeProducts,
@@ -12,6 +13,7 @@ export const store = configureStore({
     filter_products: FilterProductsSlice,
     CartItems: AddToCartSlice,
     Auth: Auth,
-    Wishlist:WishlistSlice,
+    Wishlist: WishlistSlice,
+    WishlistItem: AddWishlistItemSlice,
   },
 });

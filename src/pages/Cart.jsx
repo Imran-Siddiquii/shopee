@@ -1,28 +1,29 @@
 import styled from "styled-components";
-import CartItem from "./components/CartItem";
+import CartItem from "../components/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { NavLink } from "react-router-dom";
-import { Button } from "./styles/Button";
+import { NavLink} from "react-router-dom";
+import { Button } from "../styles/Button";
 import {
   GetUserCart,
   clearCart,
   totalItem,
   totalPrice,
-} from "./Redux/Reducers/AddToCartSlice";
-import FormatPrice from "./Helpers/FormatPrice";
+} from "../Redux/Reducers/AddToCartSlice";
+import FormatPrice from "../utils/FormatPrice";
 
 const Cart = () => {
   const { cart, total_price, shipping_fee } = useSelector(
     (state) => state.CartItems
   );
   const dispatch = useDispatch();
+  // const { id } = useParams();
   useEffect(() => {
     localStorage.setItem("CartData", JSON.stringify(cart));
     dispatch(totalItem());
     dispatch(totalPrice());
+    dispatch(GetUserCart());
     // eslint-disable-next-line
-    dispatch(GetUserCart())
   }, [cart]);
   if (cart?.length === 0) {
     return (

@@ -10,7 +10,6 @@ import {
   Products,
   SingleProduct,
   WishList,
-  router,
 } from "./Router";
 import { Header } from "./components/Header";
 import Footer from "./components/Footer";
@@ -18,9 +17,9 @@ import { useDispatch } from "react-redux";
 import { fetchCategory, fetchProducts } from "./Redux/Reducers/Products";
 import ScrollToTop from "./components/ScrollToTop";
 import Loader from "./components/Loader";
-import { PrivateRoute } from "./PriveteRoute";
-import { Login } from "./Login";
-import { Signin } from "./Signin";
+import { PrivateRoute } from "./components/PriveteRoute";
+import { Login } from "./pages/Login";
+import { Signin } from "./pages/Signin";
 const theme = {
   colors: {
     heading: "rgb(24,24,29",
@@ -45,7 +44,7 @@ const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchProducts());
-    dispatch(fetchCategory())
+    dispatch(fetchCategory());
     // eslint-disable-next-line
   }, []);
 

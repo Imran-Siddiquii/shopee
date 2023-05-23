@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const WishlistSlice = createSlice({
-  name: "wishlist",
+  name: "wishlistItem",
   initialState: {
     loading: false,
     data: [],
@@ -46,3 +46,4 @@ export const fetchWishlist = () => {
     }
   };
 };
+

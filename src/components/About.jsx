@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import HeroSection from "./components/HeroSection";
+import HeroSection from "./HeroSection";
 const data = { name: "Wish Store" };
 const About = () => {
   return (

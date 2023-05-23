@@ -1,5 +1,5 @@
 import React from "react";
-import FormatPrice from "../Helpers/FormatPrice";
+import FormatPrice from "../utils/FormatPrice";
 import CartAmountToggle from "./CartAmountToggle";
 import { FaTrash } from "react-icons/fa";
 import {
@@ -12,10 +12,10 @@ import { useDispatch } from "react-redux";
 
 const CartItem = ({ id, name, image, color, price, amount, max }) => {
   const dispatch = useDispatch();
-  const removeCartItem=(id)=>{
-    dispatch(removeItem(id))
-    dispatch(RemoveCartItem(id))
-  }
+  const removeCartItem = (id) => {
+    dispatch(removeItem(id));
+    dispatch(RemoveCartItem(id));
+  };
   return (
     <div className="cart_heading grid grid-five-column">
       <div className="cart-image--name">
@@ -58,10 +58,7 @@ const CartItem = ({ id, name, image, color, price, amount, max }) => {
       </div>
 
       <div>
-        <FaTrash
-          className="remove_icon"
-          onClick={()=>removeCartItem(id)}
-        />
+        <FaTrash className="remove_icon" onClick={() => removeCartItem(id)} />
       </div>
     </div>
   );

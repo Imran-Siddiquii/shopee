@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled, { keyframes, createGlobalStyle } from "styled-components";
-import { LoginAuth } from "./Redux/Auth/AuthSlice";
-import { NavLink, useNavigate } from "react-router-dom";
+import { LoginAuth } from "../Redux/auth";
+import { NavLink } from "react-router-dom";
 
 export const Login = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { data,token } = useSelector((state) => state.Auth);
   const [dados, setDados] = useState({
     email: "",
     password: "",
@@ -134,9 +132,9 @@ const Button = styled.button`
   }
 `;
 
-const Title = styled.h2`
-  font-weight: normal;
-  color: #2a2a29;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.1);
-  text-align: center;
-`;
+// const Title = styled.h2`
+//   font-weight: normal;
+//   color: #2a2a29;
+//   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.1);
+//   text-align: center;
+// `;

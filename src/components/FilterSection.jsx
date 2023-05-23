@@ -7,7 +7,7 @@ import {
   search_filter,
 } from "../Redux/Reducers/FilterProductsSlice";
 import { Button } from "../styles/Button";
-import FormatPrice from "../Helpers/FormatPrice";
+import FormatPrice from "../utils/FormatPrice";
 
 const FilterSection = () => {
   const dispatch = useDispatch();
