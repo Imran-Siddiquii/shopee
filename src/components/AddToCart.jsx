@@ -1,87 +1,53 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { FaCheck } from "react-icons/fa";
-import CartAmountToggle from "./CartAmountToggle";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../styles/Button";
-import { useDispatch, useSelector } from "react-redux";
-import { AddItemInCart, addItem } from "../Redux/Reducers/AddToCartSlice";
+import { useDispatch } from "react-redux";
+import { AddItemInCart } from "../Redux/Reducers/AddToCartSlice";
+import { AddWishlist } from "../Redux/Reducers/Wishlist/AddWishlistItemSlice";
 import {
-  AddWishlist,
-} from "../Redux/Reducers/Wishlist/AddWishlistItemSlice";
+  addToCartProducts,
+  addToWishlistProducts,
+} from "../Redux/Reducers/Products";
 
 const AddToCart = ({ product }) => {
-  const {isInWishlist}=useSelector(state=>state.WishlistItem)
-  console.log(isInWishlist,"check in wishlist")
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { id, colors, stock } = product;
-
-  const [color, setColor] = useState(colors[0]);
-  const [amount, setAmount] = useState(1);
-
-  const setDecrease = () => {
-    amount > 1 ? setAmount(amount - 1) : setAmount(1);
-  };
-
-  const setIncrease = () => {
-    amount < stock ? setAmount(amount + 1) : setAmount(stock);
-  };
   const addToCart = () => {
     if (token) {
-      dispatch(AddItemInCart(product));
-      dispatch(addItem({ id, amount, color, product }));
-      navigate("/cart");
+      if (product.isCart) {
+        navigate("/cart");
+      } else {
+        dispatch(AddItemInCart(product));
+        dispatch(addToCartProducts(product.id));
+      }
     } else {
       navigate("/login");
     }
   };
 
-  const addToWishlist=()=>{
+  const addToWishlist = () => {
     if (token) {
-      dispatch(AddWishlist(product))
+      dispatch(addToWishlistProducts(product.id));
+      dispatch(AddWishlist(product));
     } else {
       navigate("/login");
     }
-  }
+  };
 
   return (
     <Wrapper>
-      <div className="colors">
-        <p>
-          Color:
-          {colors.map((curColor, index) => {
-            return (
-              <button
-                key={index}
-                style={{ backgroundColor: curColor }}
-                className={color === curColor ? "btnStyle active" : "btnStyle"}
-                onClick={() => setColor(curColor)}
-              >
-                {color === curColor ? <FaCheck className="checkStyle" /> : null}
-              </button>
-            );
-          })}
-        </p>
-      </div>
-
       {/* add to cart  */}
-      <CartAmountToggle
-        stock={stock}
-        amount={amount}
-        setDecrease={setDecrease}
-        setIncrease={setIncrease}
-      />
-      <Button className="btn" onClick={addToCart}>
-        Add To Cart
+      <Button className="" onClick={addToCart}>
+        {!product?.isCart ? "Add To Cart" : "Go To Cart"}
       </Button>
       <Button
-        className="btn"
-        disabled={isInWishlist}
+        className=""
+        disabled={product?.isWishlist}
         onClick={addToWishlist}
       >
-       {!isInWishlist?"Add To Wishlist":"Wishlisted"}
+        {!product?.isWishlist ? "Add To Wishlist" : "Wishlisted"}
       </Button>
     </Wrapper>
   );
@@ -98,7 +64,7 @@ const Wrapper = styled.section`
     height: 2rem;
     background-color: #000;
     border-radius: 50%;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
     border: none;
     outline: none;
     opacity: 0.5;

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import CartItem from "../components/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Button } from "../styles/Button";
 import {
   GetUserCart,
@@ -17,7 +17,6 @@ const Cart = () => {
     (state) => state.CartItems
   );
   const dispatch = useDispatch();
-  // const { id } = useParams();
   useEffect(() => {
     localStorage.setItem("CartData", JSON.stringify(cart));
     dispatch(totalItem());
@@ -81,6 +80,7 @@ const Cart = () => {
           <p>Quantity</p>
           <p className="cart-hide">Subtotal</p>
           <p>Remove</p>
+          <p>Add To Wishlist</p>
         </div>
         <hr />
 
@@ -147,7 +147,7 @@ const Wrapper = styled.section`
   }
 
   .grid-five-column {
-    grid-template-columns: repeat(4, 1fr) 0.3fr;
+    grid-template-columns: repeat(5, 1fr) 0.9fr;
     text-align: center;
     align-items: center;
   }

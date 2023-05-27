@@ -5,8 +5,11 @@ import styled from "styled-components";
 import { Button } from "../styles/Button";
 import { NavLink } from "react-router-dom";
 import FormatPrice from "../utils/FormatPrice";
-import { AddItemInCart } from "../Redux/Reducers/AddToCartSlice";
+import { AddItemInCart, addItem } from "../Redux/Reducers/AddToCartSlice";
 import { RemoveWishlistItem } from "../Redux/Reducers/Wishlist/AddWishlistItemSlice";
+import CartAmountToggle from "../components/CartAmountToggle";
+import { FaCheck } from "react-icons/fa";
+import { removeToWishlistProducts } from "../Redux/Reducers/Products";
 
 const WishList = () => {
   const { data } = useSelector((state) => state.WishlistItem);
@@ -15,13 +18,14 @@ const WishList = () => {
     dispatch(fetchWishlist());
     // eslint-disable-next-line
   }, []);
-
   const moveToCart = (product) => {
     const { id } = product;
     dispatch(RemoveWishlistItem(id));
     dispatch(AddItemInCart(product));
-
-    // dispatch(addItem({ id, amount, color, product }));
+  };
+  const removeItem = (id) => {
+    dispatch(RemoveWishlistItem(id));
+    dispatch(removeToWishlistProducts(id));
   };
 
   if (data?.length === 0) {
@@ -58,10 +62,13 @@ const WishList = () => {
                       </div>
                     </div>
                   </NavLink>
-                  <Button
-                    className=""
-                    onClick={() => dispatch(RemoveWishlistItem(id))}
-                  >
+                  {/* <CartAmountToggle
+                    stock={stock}
+                    amount={amount}
+                    setDecrease={setDecrease}
+                    setIncrease={setIncrease}
+                  /> */}
+                  <Button className="" onClick={() => removeItem(id)}>
                     Remove
                   </Button>
                   <Button className="" onClick={() => moveToCart(curElem)}>

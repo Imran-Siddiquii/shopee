@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import FormatPrice from "../utils/FormatPrice";
 import { Button } from "../styles/Button";
+import AddToCart from "./AddToCart";
 
 const ListView = ({ products }) => {
   return (
@@ -22,9 +23,12 @@ const ListView = ({ products }) => {
                 </p>
                 <p>{description.slice(0, 90)}...</p>
 
-                <NavLink to={`/single-product/${id}`} className="btn-main">
-                  <Button className="btn">Read More</Button>
-                </NavLink>
+                <Button className="btn">Read More</Button>
+                <AddToCart product={curElem} />
+                <NavLink
+                  to={`/single-product/${id}`}
+                  className="btn-main"
+                ></NavLink>
               </div>
             </div>
           );
@@ -93,7 +97,7 @@ const Wrapper = styled.section`
     }
 
     .btn {
-      margin: 2rem 0;
+      margin: 2rem 1rem;
       background-color: rgb(0 0 0 / 0%);
       border: 0.1rem solid rgb(98 84 243);
       display: flex;

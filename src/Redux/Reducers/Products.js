@@ -22,10 +22,55 @@ const storeProducts = createSlice({
       );
       state.featuredProduct = featured;
     },
+    addToCartProducts: (state, { payload }) => {
+      const products = state?.products?.map((item) => {
+        if (item.id === payload) {
+          return { ...item, isCart: true };
+        }
+        return item;
+      });
+      state.products = products;
+    },
+    addToWishlistProducts: (state, { payload }) => {
+      const products = state?.products?.map((item) => {
+        if (item.id === payload) {
+          return { ...item, isWishlist: true };
+        }
+        return item;
+      });
+      state.products = products;
+    },
+    removeToCartProducts: (state, { payload }) => {
+      const products = state?.products?.map((item) => {
+        if (item.id === payload) {
+          return { ...item, isCart: false };
+        }
+        return item;
+      });
+      state.products = products;
+    },
+    removeToWishlistProducts: (state, { payload }) => {
+      const products = state?.products?.map((item) => {
+        if (item.id === payload) {
+          return { ...item, isWishlist: false };
+        }
+        return item;
+      });
+      state.products = products;
+    },
   },
 });
 
-export const { loading, error, product, featured } = storeProducts.actions;
+export const {
+  loading,
+  error,
+  product,
+  featured,
+  addToCartProducts,
+  addToWishlistProducts,
+  removeToCartProducts,
+  removeToWishlistProducts,
+} = storeProducts.actions;
 export default storeProducts.reducer;
 
 // fetching all products
@@ -34,10 +79,7 @@ export const fetchProducts = () => {
   return async function getProducts(dispatch) {
     dispatch(loading(true));
     try {
-      // const response = await axios.get(process.env.REACT_APP_PRODUCT_API);
-      const response = await axios.get(
-        "/api/products"
-      );
+      const response = await axios.get("/api/products");
 
       const data = await response.data;
       console.log("check", data);
@@ -50,17 +92,13 @@ export const fetchProducts = () => {
   };
 };
 
-
 export const fetchCategory = () => {
-  return async function getProducts(dispatch) { 
+  return async function getProducts(dispatch) {
     try {
-      const response = await axios.get(
-        "/api/categories"
-      );
+      const response = await axios.get("/api/categories");
 
       const data = await response.data;
       console.log("check", data);
-    } catch (err) {
-    }
+    } catch (err) {}
   };
 };

@@ -16,17 +16,15 @@ import { Logout } from "../Redux/auth";
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { total_item } = useSelector((state) => state.CartItems);
+  const { total_item, cart } = useSelector((state) => state.CartItems);
   const { data } = useSelector((state) => state.WishlistItem);
   const [menuIcon, setMenuIcon] = useState();
   const Auth = localStorage.getItem("token");
   const { token } = useSelector((state) => state.Auth);
   useEffect(() => {
-
     if (token) {
       navigate("/");
     }
-    
   }, [token]); //eslint-disable-line
   return (
     <Nav>
@@ -36,10 +34,10 @@ const Navbar = () => {
             <Tooltip title="Store">
               <NavLink
                 to="/products"
-                className="navbar-link "
+                className="navbar-link cart-trolley--link "
                 onClick={() => setMenuIcon(false)}
               >
-                <AiOutlineAppstoreAdd />
+                <AiOutlineAppstoreAdd className="cart-trolley" />
               </NavLink>
             </Tooltip>
           </li>
@@ -51,7 +49,7 @@ const Navbar = () => {
                   className="cart-trolley"
                   onClick={() => setMenuIcon(false)}
                 />
-                <span className="cart-total--item">{total_item}</span>
+                <span className="cart-total--item">{cart?.length}</span>
               </NavLink>
             </Tooltip>
           </li>

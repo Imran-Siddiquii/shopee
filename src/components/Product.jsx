@@ -1,13 +1,14 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import FormatPrice from "../utils/FormatPrice";
+import AddToCart from "./AddToCart";
 
 const Product = (curElem, props) => {
   const { id, name, image, price, category } = curElem;
   return (
     <>
-      <NavLink to={`/single-product/${id}`}>
-        <div className="card">
+      <div className="card">
+        <NavLink to={`/single-product/${id}`}>
           <figure>
             <img src={image} alt={name} />
             <figcaption className="caption">{category}</figcaption>
@@ -20,8 +21,9 @@ const Product = (curElem, props) => {
               </p>
             </div>
           </div>
-        </div>
-      </NavLink>
+        </NavLink>
+        <AddToCart product={curElem} />
+      </div>
     </>
   );
 };

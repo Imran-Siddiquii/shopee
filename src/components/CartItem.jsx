@@ -8,12 +8,21 @@ import {
   setDecrease,
   setIncrease,
 } from "../Redux/Reducers/AddToCartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { AiOutlineHeart } from "react-icons/ai";
+import { AddWishlist } from "../Redux/Reducers/Wishlist/AddWishlistItemSlice";
+import { removeToCartProducts } from "../Redux/Reducers/Products";
 
-const CartItem = ({ id, name, image, color, price, amount, max }) => {
+const CartItem = ({ id, name, image, price, amount, stock }) => {
+  const { products } = useSelector((state) => state.allProducts);
   const dispatch = useDispatch();
   const removeCartItem = (id) => {
-    dispatch(removeItem(id));
+    dispatch(RemoveCartItem(id));
+    dispatch(removeToCartProducts(id));
+  };
+  const addToWishlist = (id) => {
+    const findItemInProducts = products.find((ele) => ele.id === id);
+    dispatch(AddWishlist(findItemInProducts));
     dispatch(RemoveCartItem(id));
   };
   return (
@@ -26,13 +35,6 @@ const CartItem = ({ id, name, image, color, price, amount, max }) => {
         </div>
         <div>
           <p>{name}</p>
-          <div className="color-div">
-            <p>color:</p>
-            <div
-              className="color-style"
-              style={{ backgroundColor: color, color: color }}
-            ></div>
-          </div>
         </div>
       </div>
       {/* price   */}
@@ -44,7 +46,7 @@ const CartItem = ({ id, name, image, color, price, amount, max }) => {
 
       {/* Quantity  */}
       <CartAmountToggle
-        stock={max}
+        stock={stock}
         amount={amount}
         setDecrease={() => dispatch(setDecrease(id))}
         setIncrease={() => dispatch(setIncrease(id))}
@@ -59,6 +61,12 @@ const CartItem = ({ id, name, image, color, price, amount, max }) => {
 
       <div>
         <FaTrash className="remove_icon" onClick={() => removeCartItem(id)} />
+      </div>
+      <div>
+        <AiOutlineHeart
+          className="remove_icon"
+          onClick={() => addToWishlist(id)}
+        />
       </div>
     </div>
   );

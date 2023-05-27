@@ -1,63 +1,51 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const getLocalStorage = () => {
-  let localProduct = localStorage.getItem("CartData");
-  if (!localProduct) {
-    return [];
-  } else {
-    return JSON?.parse(localProduct);
-  }
-};
+// const getLocalStorage = () => {
+//   let localProduct = localStorage.getItem("CartData");
+//   if (!localProduct) {
+//     return [];
+//   } else {
+//     return JSON?.parse(localProduct);
+//   }
+// };
 const AddToCartSlice = createSlice({
   name: "Add_to_Cart",
   initialState: {
-    cart: getLocalStorage(),
+    // cart: getLocalStorage(),
+    cart: [],
     total_item: 0,
     total_price: "",
     shipping_fee: 50000,
   },
   reducers: {
     addItem: (state, { payload }) => {
-      const { id, color, amount, product } = payload;
+      console.log(payload, "check item in the payload");
+      const checkMultiple = payload.reduce((acc, curr) => {
+        curr.amount ? null : (curr["amount"] = 1);
+        acc.push(curr);
+        return acc;
+      }, []);
+      const cartData = checkMultiple.reduce((acc, item) => {
+        const existingItem = acc.find((i) => i.id === item.id);
+        if (existingItem) {
+          existingItem.amount++;
+        } else {
+          acc.push(item);
+        }
+        return acc;
+      }, []);
 
-      // if same item is present in the Cart
-
-      const findItemInCart = state?.cart?.find((ele) => ele.id === id + color);
-
-      if (findItemInCart) {
-        const increaseQuentity = state.cart.map((ele) => {
-          if (ele.id === id + color) {
-            let newAmount = ele.amount + amount;
-            // questity should be greater than stock
-            if (newAmount >= ele.max) {
-              newAmount = ele.max;
-            }
-            return { ...ele, amount: newAmount };
-          } else {
-            return ele;
-          }
-        });
-        state.cart = increaseQuentity;
-        // console.log(increaseQuentity, "find");
-      } else {
-        let productsItemToCart = {
-          id: id + color,
-          name: product.name,
-          color,
-          amount,
-          price: product.price,
-          image: product?.image[0]?.url,
-          max: product.stock,
-        };
-        state.cart = [...state.cart, productsItemToCart];
-      }
+      state.cart = cartData;
     },
+
     // remove item from array
     removeItem: (state, { payload }) => {
-      let removeProduct = state.cart.filter(
-        (curElem) => curElem.id !== payload
-      );
-      state.cart = removeProduct;
+      const checkMultiple = payload.reduce((acc, curr) => {
+        curr.amount ? null : (curr["amount"] = 1);
+        acc.push(curr);
+        return acc;
+      }, []);
+      state.cart = checkMultiple;
     },
     // clear cart
     clearCart: (state) => {
@@ -120,60 +108,59 @@ export const {
 } = AddToCartSlice.actions;
 export default AddToCartSlice.reducer;
 
-
-export const  AddItemInCart=(product)=>{
-  return async function postItem(dispatch){ 
-    // console.log(product)
-    const options={
-      method:"POST",
-      headers:{
-        authorization: localStorage.getItem('token')
+export const GetUserCart = () => {
+  return async function getItem(dispatch) {
+    const options = {
+      method: "GET",
+      headers: {
+        authorization: localStorage.getItem("token"),
       },
-      body:JSON.stringify({product})
-    }
+    };
     try {
-          const res= await fetch("/api/user/cart",options)
-          const data = await res.json()
-          console.log("Add Itemcart",data)     
+      const res = await fetch("/api/user/cart", options);
+      const data = await res.json();
+      // dispatch(addItem(data?.cart));
+      console.log("cartItem", data);
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-  } 
-}
+  };
+};
 
-export const GetUserCart=()=>{
-  return async function getItem(dispatch){
-    const options={
-      method:"GET",
-      headers:{
-        authorization: localStorage.getItem('token')
+export const AddItemInCart = (product) => {
+  return async function postItem(dispatch) {
+    const options = {
+      method: "POST",
+      headers: {
+        authorization: localStorage.getItem("token"),
       },
-    }
+      body: JSON.stringify({ product }),
+    };
     try {
-          const res= await fetch("/api/user/cart",options)
-          const data = await res.json()
-          console.log("cartItem",data)     
+      const res = await fetch("/api/user/cart", options);
+      const data = await res.json();
+      console.log("Add Itemcart", data);
+      dispatch(addItem(data.cart));
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-  } 
-  }
+  };
+};
 
-
-  export const RemoveCartItem=(id)=>{
-    return async function deleteItem(dispatch){
-      const options={
-        method:"DELETE",
-        headers:{
-          authorization: localStorage.getItem('token')
-        },
-      }
-      try{
-        const res= await fetch(`/api/user/cart/${id}`,options)
-        const data = await res.json()
-        console.log("cartdelete",data,res)   
-      }catch(error){
-        console.log(error)
-      }
+export const RemoveCartItem = (id) => {
+  return async function deleteItem(dispatch) {
+    const options = {
+      method: "DELETE",
+      headers: {
+        authorization: localStorage.getItem("token"),
+      },
+    };
+    try {
+      const res = await fetch(`/api/user/cart/${id}`, options);
+      const data = await res.json();
+      dispatch(removeItem(data.cart));
+    } catch (error) {
+      console.log(error);
     }
-  } 
+  };
+};

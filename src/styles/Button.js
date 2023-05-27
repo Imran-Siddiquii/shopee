@@ -5,13 +5,13 @@ export const Button = styled.button`
   max-width: auto;
   background-color: rgb(98 84 243);
   color: rgb(255 255 255);
-  padding: 1.4rem 2.4rem;
+  padding: 1.4rem 1.5rem;
   border: none;
   text-transform: uppercase;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-left:1rem;
+  margin-left: 1rem;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;

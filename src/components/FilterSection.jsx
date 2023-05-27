@@ -28,7 +28,6 @@ const FilterSection = () => {
 
   const getUniqueCategory = uniqueValue(all_products, "category");
   const getUniqueCompany = uniqueValue(all_products, "company");
-  const getUniqueColor = uniqueValue(all_products, "colors");
 
   // dispatching function to filter
 
@@ -93,59 +92,6 @@ const FilterSection = () => {
             })}
           </select>
         </form>
-      </div>
-
-      <div className="filter-colors colors">
-        <h3>Colors</h3>
-
-        <div className="filter-color-style">
-          {/* {getUniqueColor.map((curColor, index) => {
-            return (
-              <button
-                key={index}
-                type="button"
-                value={curColor}
-                name="color"
-                style={{
-                  backgroundColor: curColor,
-                }}
-                className={`btnStyle ${curColor === color ? "active" : ""}`}
-                onClick={() => dispatch(search_filter_color(curColor))}
-              >
-                {color === curColor ? "" : null}
-              </button>
-            );
-          })} */}
-          {getUniqueColor.map((curColor, index) => {
-            if (curColor === "All") {
-              return (
-                <button
-                  key={index}
-                  type="button"
-                  value={curColor}
-                  name="color"
-                  className="color-all--style"
-                  onClick={filterData}
-                >
-                  All
-                </button>
-              );
-            }
-            return (
-              <button
-                key={index}
-                type="button"
-                value={curColor}
-                name="color"
-                style={{ backgroundColor: curColor }}
-                className={color === curColor ? "btnStyle active" : "btnStyle"}
-                onClick={filterData}
-              >
-                {color === curColor ? <FaCheck className="checkStyle" /> : null}
-              </button>
-            );
-          })}
-        </div>
       </div>
       <div>
         <div className="filter_price">

@@ -16,7 +16,7 @@ export const Header = () => {
         />
       </NavLink>
       <div id="input_group">
-        <label id="label" for="input">
+        <label id="label" htmlFor="input">
           <AiOutlineSearch
             className="search-icon"
             onClick={() => navigate("/products")}
