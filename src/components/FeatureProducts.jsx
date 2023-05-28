@@ -1,24 +1,51 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import Product from "./Product";
+import { useEffect } from "react";
+import { fetchCategoryList } from "../Redux/Reducers/CategorySlice";
+import { NavLink } from "react-router-dom";
+import FormatPrice from "../utils/FormatPrice";
+import { fetchCategoryById } from "../Redux/Reducers/FilterProductsSlice";
 
 const FeatureProduct = () => {
-  const { isLoading, featuredProduct } = useSelector(
-    (state) => state.allProducts
+  const dispatch = useDispatch();
+  const { isLoading, categoryData } = useSelector(
+    (state) => state.categoryList
   );
   // console.log("isLoading", isLoading, featuredProduct);
+  useEffect(() => {
+    dispatch(fetchCategoryList());
+  }, []);
   if (isLoading) {
-    return <div> ......Loading </div>;
+    return (
+      <div className="w-100 d-flex justify-content-center h-50  align-items-center bg-dark text-center ">
+        ......Loading
+      </div>
+    );
   }
 
   return (
     <Wrapper className="section">
       <div className="container">
         <div className="intro-data">Check Now!</div>
-        <div className="common-heading">Our Feature Services</div>
+        <div className="common-heading">Our Feature Category</div>
         <div className="grid grid-three-column">
-          {featuredProduct.map((curElem) => {
-            return <Product key={curElem.id} {...curElem} />;
+          {categoryData.map((curElem) => {
+            const { id, name, image, category } = curElem;
+
+            return (
+              <div
+                className="card"
+                key={id}
+                onClick={() => dispatch(fetchCategoryById({ category, id }))}
+              >
+                <NavLink to={`/products`}>
+                  <figure>
+                    <img src={image} alt={name} />
+                    <figcaption className="caption">{category}</figcaption>
+                  </figure>
+                </NavLink>
+              </div>
+            );
           })}
         </div>
       </div>
@@ -33,7 +60,10 @@ const Wrapper = styled.section`
   .container {
     max-width: 120rem;
   }
-
+  .intro-data {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
   figure {
     width: auto;
     display: flex;

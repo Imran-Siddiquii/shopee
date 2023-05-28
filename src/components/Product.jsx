@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import FormatPrice from "../utils/FormatPrice";
 import AddToCart from "./AddToCart";
 
-const Product = (curElem, props) => {
+const Product = (curElem) => {
   const { id, name, image, price, category } = curElem;
   return (
     <>

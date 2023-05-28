@@ -1,65 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 50px;
-`;
-
-const InputContainer = styled.div`
-  position: relative;
-  width: 100%;
-`;
-
-const Input = styled.input`
-  padding: 10px 30px 10px 10px;
-  margin-bottom: 10px;
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid gray;
-  font-size: 16px;
-
-  &:focus {
-    outline: none;
-  }
-`;
-
-const Label = styled.label`
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 5px;
-`;
-
-const Button = styled.button`
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #0077cc;
-  color: white;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #005fa3;
-  }
-`;
-
-const IconContainer = styled.span`
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  cursor: pointer;
-`;
-
-const ErrorMessage = styled.p`
-  color: red;
-  margin-top: 5px;
-`;
+import { NavLink, useNavigate } from "react-router-dom";
 
 export const Signin = () => {
   const [formData, setFormData] = useState({
@@ -106,66 +48,105 @@ export const Signin = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleTogglePassword = () => {
-    setShowPassword(!showPassword);
-  };
-
   return (
-    <Container>
-      <form onSubmit={handleSignup}>
-        <Label>First Name</Label>
-        <Input
-          type="text"
-          placeholder="Enter your first name"
-          name="firstName"
-          value={formData.firstName}
-          onChange={handleInputChange}
-          required
-        />
-        <Label>Last Name</Label>
-        <Input
-          type="text"
-          placeholder="Enter your last name"
-          name="lastName"
-          value={formData.lastName}
-          onChange={handleInputChange}
-          required
-        />
-        <Label>Email</Label>
-        <Input
-          type="Email"
-          placeholder="Email"
-          name="email"
-          value={formData.email}
-          onChange={handleInputChange}
-          required
-        />
-        <Label>Password</Label>
-        <InputContainer>
-          <Input
-            type={showPassword ? "text" : "password"}
-            placeholder="Enter your password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            required
-          />
-          <IconContainer onClick={handleTogglePassword}>
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
-          </IconContainer>
-        </InputContainer>
-        <Label>Confirm Password</Label>
-        <Input
-          type="password"
-          placeholder="Confirm your password"
-          name="confirmPassword"
-          value={formData.confirmPassword}
-          onChange={handleInputChange}
-          required
-        />
-        {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
-        <Button type="submit">Sign Up</Button>
-      </form>
-    </Container>
+    <Wrapper>
+      <div className="container">
+        <div className="contact-form">
+          <form
+            method="POST"
+            className="contact-inputs"
+            onSubmit={handleSignup}
+          >
+            <input
+              type="text"
+              placeholder="username"
+              name="username"
+              required
+              autoComplete="off"
+              onChange={handleInputChange}
+            />
+
+            <input
+              type="email"
+              name="Email"
+              placeholder="Email"
+              autoComplete="off"
+              onChange={handleInputChange}
+              required
+            />
+            <div id="input_group">
+              <label id="label" htmlFor="">
+                {!showPassword ? (
+                  <FaEyeSlash
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="search-icon"
+                    style={{ fontSize: "2rem" }}
+                  />
+                ) : (
+                  <FaEye
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="search-icon"
+                    style={{ fontSize: "2rem" }}
+                  />
+                )}
+              </label>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                autoComplete="off"
+                onChange={handleInputChange}
+                required
+                style={{ height: "5rem", paddingLeft: "2.5rem" }}
+                className="input-search"
+              />
+            </div>
+            <input
+              type="text"
+              name="comfirm-password"
+              placeholder="Confirm Password"
+              autoComplete="off"
+              onChange={handleInputChange}
+              required
+            />
+            <NavLink to="/login">Already have an account?</NavLink>
+            <input type="submit" value="Sign In" />
+          </form>
+        </div>
+      </div>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.section`
+  padding: 3rem 0 3rem 0;
+  text-align: right;
+  font-size: 1.5rem;
+  .container {
+    margin-top: 6rem;
+
+    .contact-form {
+      max-width: 50rem;
+      margin: auto;
+
+      .contact-inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        input[type="submit"] {
+          cursor: pointer;
+          transition: all 0.2s;
+          padding: 1rem 1.2rem;
+
+          &:hover {
+            background-color: ${({ theme }) => theme.colors.white};
+            border: 1px solid ${({ theme }) => theme.colors.btn};
+            color: ${({ theme }) => theme.colors.btn};
+            transform: scale(0.9);
+          }
+        }
+      }
+    }
+  }
+`;

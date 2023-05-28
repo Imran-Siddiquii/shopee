@@ -3,23 +3,17 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { GlobalStyle } from "./GlobalStyle";
 import { ThemeProvider } from "styled-components";
-import {
-  Cart,
-  Error,
-  Home,
-  Products,
-  SingleProduct,
-  WishList,
-} from "./Router";
+import { Cart, Error, Home, Products, SingleProduct, WishList } from "./Router";
 import { Header } from "./components/Header";
 import Footer from "./components/Footer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchCategory, fetchProducts } from "./Redux/Reducers/Products";
 import ScrollToTop from "./components/ScrollToTop";
 import Loader from "./components/Loader";
 import { PrivateRoute } from "./components/PriveteRoute";
 import { Login } from "./pages/Login";
 import { Signin } from "./pages/Signin";
+import { filterProducts } from "./Redux/Reducers/FilterProductsSlice";
 const theme = {
   colors: {
     heading: "rgb(24,24,29",
@@ -41,13 +35,17 @@ const theme = {
   media: { mobile: "768px", tab: "998px" },
 };
 const App = () => {
+  const { products, isLoading } = useSelector((state) => state.allProducts);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchProducts());
     dispatch(fetchCategory());
     // eslint-disable-next-line
   }, []);
-
+  useEffect(() => {
+    dispatch(filterProducts(products));
+    // eslint-disable-next-line
+  }, [products]);
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -64,6 +62,7 @@ const App = () => {
             <Routes>
               <Route exact path="/" element={<Home />} />
               <Route exact path="/products" element={<Products />} />
+
               <Route exact path="/cart" element={<Cart />} />
 
               <Route

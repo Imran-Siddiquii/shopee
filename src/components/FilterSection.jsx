@@ -33,7 +33,6 @@ const FilterSection = () => {
 
   const filterData = (event) => {
     const { name, value } = event.target;
-    // console.log(name, value);
     dispatch(search_filter({ name, value }));
   };
 
@@ -44,7 +43,7 @@ const FilterSection = () => {
         <form onSubmit={(e) => e.preventDefault()}>
           <input
             type="text"
-            value={text}
+            // value={text}
             name="text"
             placeholder="Search"
             onChange={filterData}

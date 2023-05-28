@@ -122,3 +122,15 @@ export const {
   clearFilter,
 } = FilterProdutsSlice.actions;
 export default FilterProdutsSlice.reducer;
+
+export const fetchCategoryById = ({ category, id }) => {
+  return async function getData(dispatch) {
+    try {
+      const res = await fetch(`/api/categories/${category}`);
+      const data = await res.json();
+      dispatch(search_filter({ name: "category", value: category }));
+    } catch (error) {
+      console.log(error, "check data ");
+    }
+  };
+};
