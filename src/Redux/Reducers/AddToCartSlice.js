@@ -12,6 +12,7 @@ const AddToCartSlice = createSlice({
   name: "Add_to_Cart",
   initialState: {
     // cart: getLocalStorage(),
+
     cart: [],
     total_item: 0,
     total_price: "",

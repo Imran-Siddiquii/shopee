@@ -1,17 +1,19 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import styled, { keyframes, createGlobalStyle } from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 import { LoginAuth } from "../Redux/auth";
 import { NavLink } from "react-router-dom";
+import Loader from "../components/Loader";
 
 export const Login = () => {
   const dispatch = useDispatch();
-  const [dados, setDados] = useState({
+  const { isLoading } = useSelector((state) => state.Auth);
+  const [formData, setformData] = useState({
     email: "",
     password: "",
   });
   const handleSubmit = (e) => {
-    const { email, password } = dados;
+    const { email, password } = formData;
     e.preventDefault();
     dispatch(LoginAuth({ email, password }));
   };
@@ -19,21 +21,25 @@ export const Login = () => {
   const handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
-    setDados(Object.assign(dados, { [name]: value }));
+    setformData({ ...formData, [name]: value });
   };
 
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <Wrapper>
         <div className="container">
           <div className="contact-form">
-            <form method="POST" className="contact-inputs">
+            <form onSubmit={handleSubmit} className="contact-inputs">
               <input
                 type="email"
-                name="Email"
+                name="email"
                 placeholder="Email"
                 autoComplete="off"
                 required
+                onChange={handleChange}
               />
               <input
                 type="text"
@@ -41,6 +47,7 @@ export const Login = () => {
                 placeholder="Password"
                 autoComplete="off"
                 required
+                onChange={handleChange}
               />
               <NavLink to="/signin">Create new account?</NavLink>
               <input type="submit" value="Log In" />

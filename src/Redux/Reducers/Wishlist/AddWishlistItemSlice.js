@@ -71,9 +71,9 @@ export const RemoveWishlistItem = (id) => {
     };
     try {
       const res = await fetch(`/api/user/wishlist/${id}`, options);
-      const {wishlist} = await res.json();
-      console.log("deletewishlist", " res", res,wishlist);
-      dispatch(wishlistItem(wishlist))
+      const { wishlist } = await res.json();
+      console.log("deletewishlist", " res", res, wishlist);
+      dispatch(wishlistItem(wishlist));
     } catch (error) {
       console.log(error);
     }

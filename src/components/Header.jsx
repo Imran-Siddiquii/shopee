@@ -15,6 +15,7 @@ export const Header = () => {
     const { name, value } = event.target;
     setSearchToggle(value);
     dispatch(search_filter({ name, value }));
+    // setSearchToggle("");
   };
   return (
     <MainHeader>
@@ -34,6 +35,7 @@ export const Header = () => {
           id="input"
           type="text"
           name="text"
+          value={searchToggle}
           autoComplete="off"
           className="input-search"
           placeholder="Search Products"
@@ -41,25 +43,32 @@ export const Header = () => {
         />
         {searchToggle ? (
           <div className="search-item">
-            {filter_products?.length
-              ? filter_products.map((ele) => (
-                  <NavLink to={`/single-product/${ele.id}`}>
-                    <div className="list-item">
-                      <div className="d-flex">
-                        <img
-                          src={ele.image}
-                          alt={ele.id}
-                          width="90px"
-                          height="50px"
-                        />
-                      </div>
-                      <div className="list-item-text">
-                        <li>{ele.name}</li>
-                      </div>
+            {filter_products?.length ? (
+              filter_products.map((ele) => (
+                <NavLink
+                  to={`/single-product/${ele.id}`}
+                  onClick={() => setSearchToggle("")}
+                >
+                  <div className="list-item">
+                    <div className="d-flex">
+                      <img
+                        src={ele.image}
+                        alt={ele.id}
+                        width="90px"
+                        height="50px"
+                      />
                     </div>
-                  </NavLink>
-                ))
-              : "no data found"}
+                    <div className="list-item-text">
+                      <li>{ele.name}</li>
+                    </div>
+                  </div>
+                </NavLink>
+              ))
+            ) : (
+              <div className="list-item-text">
+                <li>No data found</li>
+              </div>
+            )}
           </div>
         ) : null}
       </div>

@@ -12,14 +12,14 @@ import PageNavigation from "../components/PageNavigation";
 import Stars from "../components/Stars";
 import AddToCart from "../components/AddToCart";
 import Loader from "../components/Loader";
-import { isWishlisted } from "../Redux/Reducers/Wishlist/AddWishlistItemSlice";
+// import { isWishlisted } from "../Redux/Reducers/Wishlist/AddWishlistItemSlice";
 
 const SingleProduct = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   useEffect(() => {
     dispatch(fetchSingleProducts(id));
-    dispatch(isWishlisted(id));
+    // dispatch(isWishlisted(id));
     // eslint-disable-next-line
   }, [id]);
 
@@ -107,7 +107,7 @@ const SingleProduct = () => {
               </p>
             </div>
             <hr />
-            {stock > 0 && <AddToCart product={singleProducts} />}
+            <AddToCart product={singleProducts} />
           </div>
         </div>
       </Container>

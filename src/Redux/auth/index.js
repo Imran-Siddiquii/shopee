@@ -6,7 +6,7 @@ const Auth = createSlice({
     isLoading: false,
     data: [],
     isError: false,
-    token:null,
+    token: null,
   },
   reducers: {
     Loading: (state, { payload }) => {
@@ -17,15 +17,15 @@ const Auth = createSlice({
     },
     AuthResponse: (state, { payload }) => {
       state.data = payload.foundUser;
-      state.token=payload.encodedToken
+      state.token = payload.encodedToken;
     },
-    Logout:(state)=>{
-      state.data=[]
-      state.token=null
-    }
+    Logout: (state) => {
+      state.data = [];
+      state.token = null;
+    },
   },
 });
-export const { Error, Loading, AuthResponse,Logout } = Auth.actions;
+export const { Error, Loading, AuthResponse, Logout } = Auth.actions;
 export default Auth.reducer;
 
 export const LoginAuth = (credentail) => {
@@ -38,7 +38,6 @@ export const LoginAuth = (credentail) => {
       });
 
       const data = await res.json();
-      console.log(data);
       dispatch(Loading(false));
       localStorage.setItem("token", data.encodedToken);
       dispatch(AuthResponse(data));

@@ -43,7 +43,7 @@ const WishList = () => {
       <div className="container">
         <div className="common-heading">Wishlist Item</div>
         <div className="grid grid-three-column">
-          {data.map((curElem) => {
+          {data?.map((curElem) => {
             const { id, name, image, price, category } = curElem;
             return (
               <>

@@ -1,16 +1,18 @@
 import styled from "styled-components";
-import { FaCheck } from "react-icons/fa";
+import { FaAd, FaCheck, FaSpinner } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../styles/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AddItemInCart } from "../Redux/Reducers/AddToCartSlice";
 import { AddWishlist } from "../Redux/Reducers/Wishlist/AddWishlistItemSlice";
 import {
   addToCartProducts,
   addToWishlistProducts,
 } from "../Redux/Reducers/Products";
+import Loader from "./Loader";
 
 const AddToCart = ({ product }) => {
+  const { loading } = useSelector((state) => state.WishlistItem);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const dispatch = useDispatch();
