@@ -17,24 +17,6 @@ const Products = () => {
 
   const dispatch = useDispatch();
   const { products, isLoading } = useSelector((state) => state.allProducts);
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop =
-        window.pageYOffset || document.documentElement.scrollTop;
-      const windowHeight = window.innerHeight;
-
-      if (scrollTop > windowHeight / 2) {
-        setIsCentered(false);
-      } else {
-        setIsCentered(true);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   useEffect(() => {
     dispatch(filterProducts(products));

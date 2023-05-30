@@ -1,8 +1,26 @@
 import React from "react";
 import styled from "styled-components";
 import Product from "./Product";
-
+import { NavLink } from "react-router-dom";
+import { Button } from "../styles/Button";
+const EmptyDiv = styled.div`
+  display: grid;
+  place-items: center;
+  height: 50vh;
+  h3 {
+    font-size: 4.2rem;
+    text-transform: capitalize;
+    font-weight: 300;
+  }
+`;
 const GridView = ({ products }) => {
+  if (!products.length) {
+    return (
+      <EmptyDiv>
+        <h3>No Items Found </h3>
+      </EmptyDiv>
+    );
+  }
   return (
     <Wrapper className="section">
       <div className="container grid grid-three-column">

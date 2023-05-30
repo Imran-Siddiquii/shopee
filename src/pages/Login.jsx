@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+
 import styled from "styled-components";
 import { LoginAuth } from "../Redux/auth";
 import { NavLink } from "react-router-dom";
@@ -7,6 +9,8 @@ import Loader from "../components/Loader";
 
 export const Login = () => {
   const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
+
   const { isLoading } = useSelector((state) => state.Auth);
   const [formData, setformData] = useState({
     email: "",
@@ -41,14 +45,33 @@ export const Login = () => {
                 required
                 onChange={handleChange}
               />
-              <input
-                type="text"
-                name="password"
-                placeholder="Password"
-                autoComplete="off"
-                required
-                onChange={handleChange}
-              />
+              <div id="input_group">
+                <label id="label" htmlFor="">
+                  {!showPassword ? (
+                    <FaEyeSlash
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="search-icon"
+                      style={{ fontSize: "2rem", color: "rgba(0,0,0,0.7)" }}
+                    />
+                  ) : (
+                    <FaEye
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="search-icon"
+                      style={{ fontSize: "2rem", color: "rgba(0,0,0,0.7)" }}
+                    />
+                  )}
+                </label>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Password"
+                  autoComplete="off"
+                  required
+                  onChange={handleChange}
+                  style={{ height: "5rem", paddingLeft: "2.5rem" }}
+                  className="input-search"
+                />
+              </div>
               <NavLink to="/signin">Create new account?</NavLink>
               <input type="submit" value="Log In" />
             </form>
@@ -75,6 +98,9 @@ const Wrapper = styled.section`
         display: flex;
         flex-direction: column;
         gap: 2rem;
+        input {
+          text-transform: none;
+        }
 
         input[type="submit"] {
           cursor: pointer;

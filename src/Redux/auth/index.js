@@ -47,3 +47,23 @@ export const LoginAuth = (credentail) => {
     }
   };
 };
+
+export const signInAuth = (credentail) => {
+  return async function getdate(dispatch) {
+    dispatch(Loading(true));
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        body: JSON.stringify(credentail),
+      });
+
+      const data = await res.json();
+      dispatch(Loading(false));
+      localStorage.setItem("token", data.encodedToken);
+      dispatch(AuthResponse(data));
+    } catch (error) {
+      dispatch(Loading(false));
+      dispatch(Error());
+    }
+  };
+};

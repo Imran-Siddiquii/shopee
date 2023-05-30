@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signInAuth } from "../Redux/auth";
 
 export const Signin = () => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     firstName: "",
     email: "",
@@ -17,58 +20,49 @@ export const Signin = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    console.log("helo");
     const { firstName, email, lastName, password, confirmPassword } = formData;
     if (formData.password !== formData.confirmPassword) {
       setPasswordError("Passwords do not match");
     } else {
       setPasswordError("");
-      try {
-        const res = await fetch("/api/auth/signup", {
-          method: "POST",
-          body: JSON.stringify({
-            firstName,
-            lastName,
-            password,
-            email,
-            confirmPassword,
-          }),
-        });
-        const { createdUser, encodedToken } = await res.json();
-        localStorage.setItem("token", encodedToken);
-        if (encodedToken) {
-          navigate("/");
-        }
-      } catch (error) {}
+      dispatch(
+        signInAuth({ firstName, lastName, password, email, confirmPassword })
+      );
     }
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    if (formData.confirmPassword === formData.password) {
+      setPasswordError("");
+    }
   };
 
   return (
     <Wrapper>
       <div className="container">
         <div className="contact-form">
-          <form
-            method="POST"
-            className="contact-inputs"
-            onSubmit={handleSignup}
-          >
+          <form className="contact-inputs" onSubmit={handleSignup}>
             <input
               type="text"
-              placeholder="username"
-              name="username"
+              placeholder="First Name"
+              name="firstName"
               required
               autoComplete="off"
               onChange={handleInputChange}
             />
-
+            <input
+              type="text"
+              placeholder="Last Name"
+              name="lastName"
+              required
+              autoComplete="off"
+              onChange={handleInputChange}
+            />
             <input
               type="email"
-              name="Email"
+              name="email"
               placeholder="Email"
               autoComplete="off"
               onChange={handleInputChange}
@@ -80,13 +74,13 @@ export const Signin = () => {
                   <FaEyeSlash
                     onClick={() => setShowPassword(!showPassword)}
                     className="search-icon"
-                    style={{ fontSize: "2rem" }}
+                    style={{ fontSize: "2rem", color: "rgba(0,0,0,0.7)" }}
                   />
                 ) : (
                   <FaEye
                     onClick={() => setShowPassword(!showPassword)}
                     className="search-icon"
-                    style={{ fontSize: "2rem" }}
+                    style={{ fontSize: "2rem", color: "rgba(0,0,0,0.7)" }}
                   />
                 )}
               </label>
@@ -103,12 +97,15 @@ export const Signin = () => {
             </div>
             <input
               type="text"
-              name="comfirm-password"
+              name="confirmPassword"
               placeholder="Confirm Password"
               autoComplete="off"
               onChange={handleInputChange}
               required
             />
+            {passwordError ? (
+              <h4 style={{ color: "red" }}>Password should match</h4>
+            ) : null}
             <NavLink to="/login">Already have an account?</NavLink>
             <input type="submit" value="Sign In" />
           </form>
@@ -133,7 +130,9 @@ const Wrapper = styled.section`
         display: flex;
         flex-direction: column;
         gap: 2rem;
-
+        input {
+          text-transform: none;
+        }
         input[type="submit"] {
           cursor: pointer;
           transition: all 0.2s;

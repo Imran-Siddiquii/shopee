@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { FaAd, FaCheck, FaSpinner } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../styles/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { AddItemInCart } from "../Redux/Reducers/AddToCartSlice";
@@ -9,16 +9,14 @@ import {
   addToCartProducts,
   addToWishlistProducts,
 } from "../Redux/Reducers/Products";
-import Loader from "./Loader";
-
-const AddToCart = ({ product }) => {
+const AddToCart = ({ product, isCart, isWishlist }) => {
   const { loading } = useSelector((state) => state.WishlistItem);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const addToCart = () => {
     if (token) {
-      if (product.isCart) {
+      if (product.isCart || isCart) {
         navigate("/cart");
       } else {
         dispatch(AddItemInCart(product));
@@ -42,14 +40,14 @@ const AddToCart = ({ product }) => {
     <Wrapper>
       {/* add to cart  */}
       <Button className="" onClick={addToCart}>
-        {!product?.isCart ? "Add To Cart" : "Go To Cart"}
+        {isCart || product?.isCart ? "Go To Cart" : "Add To Cart"}
       </Button>
       <Button
         className=""
-        disabled={product?.isWishlist}
+        disabled={isWishlist || product?.isWishlist}
         onClick={addToWishlist}
       >
-        {!product?.isWishlist ? "Add To Wishlist" : "Wishlisted"}
+        {isWishlist || product?.isWishlist ? "Wishlisted" : "Add To Wishlist"}
       </Button>
     </Wrapper>
   );

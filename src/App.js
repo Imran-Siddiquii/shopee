@@ -41,9 +41,9 @@ const App = () => {
     dispatch(fetchProducts());
     dispatch(fetchCategory());
     // eslint-disable-next-line
+    dispatch(filterProducts(products));
   }, []);
   useEffect(() => {
-    dispatch(filterProducts(products));
     // eslint-disable-next-line
   }, [products]);
   return (

@@ -8,12 +8,22 @@ import {
 } from "../Redux/Reducers/FilterProductsSlice";
 import { Button } from "../styles/Button";
 import FormatPrice from "../utils/FormatPrice";
+import Stars from "./Stars";
 
 const FilterSection = () => {
   const dispatch = useDispatch();
   const {
     all_products,
-    searchFilter: { text, category, company, color, minPrice, maxPrice, price },
+    searchFilter: {
+      text,
+      category,
+      company,
+      color,
+      stars,
+      minPrice,
+      maxPrice,
+      price,
+    },
   } = useSelector((state) => state.filter_products);
 
   // function to get unique value
@@ -28,6 +38,7 @@ const FilterSection = () => {
 
   const getUniqueCategory = uniqueValue(all_products, "category");
   const getUniqueCompany = uniqueValue(all_products, "company");
+  const getUniqueStars = uniqueValue(all_products, "stars");
 
   // dispatching function to filter
 
@@ -65,6 +76,25 @@ const FilterSection = () => {
                 onClick={filterData}
               >
                 {curElem}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      <div className="filter-category">
+        <h3>Rating</h3>
+        <div>
+          {getUniqueStars.map((curElem, index) => {
+            return (
+              <button
+                key={index}
+                type="button"
+                name="stars"
+                value={curElem}
+                className={curElem === stars ? "active" : ""}
+                onClick={filterData}
+              >
+                Rating : {curElem}
               </button>
             );
           })}

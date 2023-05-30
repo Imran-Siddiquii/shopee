@@ -26,7 +26,15 @@ const FilterProdutsSlice = createSlice({
         ...state,
         filter_products: payload,
         all_products: payload,
-        searchFilter: { ...filterArray, maxPrice: maxPrice, price: maxPrice },
+        searchFilter: {
+          ...filterArray,
+          category: "All",
+          company: "All",
+          text: "",
+          maxPrice: maxPrice,
+          price: maxPrice,
+          stars: "All",
+        },
       });
     },
     Grid_View: (state, payload) => {
@@ -65,7 +73,8 @@ const FilterProdutsSlice = createSlice({
       // console.log(maxPrice, "maxprice");
       const { name, value } = action.payload;
       state.searchFilter[name] = value;
-      const { text, category, color, company, price } = state.searchFilter;
+      const { text, category, color, company, price, stars } =
+        state.searchFilter;
 
       if (text) {
         filterProductsArray = filterProductsArray.filter((curElem) =>
@@ -85,6 +94,12 @@ const FilterProdutsSlice = createSlice({
       if (company !== "All") {
         filterProductsArray = filterProductsArray.filter((curElem) =>
           curElem?.company.toLowerCase().includes(company)
+        );
+      }
+      if (stars !== "All") {
+        console.log(stars, "check");
+        filterProductsArray = filterProductsArray.filter((curElem) =>
+          curElem?.stars.toLowerCase().includes(stars)
         );
       }
       if (price === 0) {

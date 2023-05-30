@@ -18,12 +18,12 @@ const Footer = () => {
           <div className="grid grid-two-column">
             <div>
               <h3>Ready to get started?</h3>
-              <h3>Talk to us today</h3>
+              <h3>Let's buy today</h3>
             </div>
 
             <div>
               <Button className="btn hireme-btn">
-                <NavLink to="/contact"> Get Started </NavLink>
+                <NavLink to="/products"> Get Started </NavLink>
               </Button>
             </div>
           </div>
