@@ -5,10 +5,8 @@ import styled from "styled-components";
 import { Button } from "../styles/Button";
 import { NavLink } from "react-router-dom";
 import FormatPrice from "../utils/FormatPrice";
-import { AddItemInCart, addItem } from "../Redux/Reducers/AddToCartSlice";
+import { AddItemInCart } from "../Redux/Reducers/AddToCartSlice";
 import { RemoveWishlistItem } from "../Redux/Reducers/Wishlist/AddWishlistItemSlice";
-import CartAmountToggle from "../components/CartAmountToggle";
-import { FaCheck } from "react-icons/fa";
 import { removeToWishlistProducts } from "../Redux/Reducers/Products";
 
 const WishList = () => {

@@ -7,6 +7,7 @@ import Auth from "../auth";
 import WishlistSlice from "../Reducers/Wishlist/WishlistSlice";
 import AddWishlistItemSlice from "../Reducers/Wishlist/AddWishlistItemSlice";
 import CategorySlice from "../Reducers/CategorySlice";
+import AddressSlice from "../Reducers/AddressSlice";
 export const store = configureStore({
   reducer: {
     allProducts: storeProducts,
@@ -17,5 +18,6 @@ export const store = configureStore({
     Wishlist: WishlistSlice,
     WishlistItem: AddWishlistItemSlice,
     categoryList: CategorySlice,
+    address: AddressSlice,
   },
 });

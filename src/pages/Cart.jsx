@@ -2,7 +2,7 @@ import styled from "styled-components";
 import CartItem from "../components/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import { Button } from "../styles/Button";
 import {
   GetUserCart,
@@ -17,6 +17,7 @@ const Cart = () => {
     (state) => state.CartItems
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     localStorage.setItem("CartData", JSON.stringify(cart));
     dispatch(totalItem());
@@ -47,30 +48,31 @@ const Cart = () => {
       document.body.appendChild(script);
     });
   };
-  const checkOut = async () => {
-    const res = await loadScript(
-      "https://checkout.razorpay.com/v1/checkout.js"
-    );
-    console.log("res", res);
-    if (!res) {
-      alert("please api is not giveing response");
-      return;
-    }
-    const options = {
-      key: "rzp_test_B2hkpWcDpvmbUL",
-      currency: "INR",
-      amount: total_price + shipping_fee,
-      name: "Wish Store",
-      description: "Thank for purchasing",
-      handler: (response) => {
-        console.log(response.razorpay_paymentid);
-        alert("paymnet id", response.razorpay_paymentid);
-      },
-    };
+  // const checkOut = async () => {
 
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.open();
-  };
+  //   const res = await loadScript(
+  //     "https://checkout.razorpay.com/v1/checkout.js"
+  //   );
+  //   console.log("res", res);
+  //   if (!res) {
+  //     alert("please api is not giveing response");
+  //     return;
+  //   }
+  //   const options = {
+  //     key: "rzp_test_B2hkpWcDpvmbUL",
+  //     currency: "INR",
+  //     amount: total_price + shipping_fee,
+  //     name: "Wish Store",
+  //     description: "Thank for purchasing",
+  //     handler: (response) => {
+  //       console.log(response.razorpay_paymentid);
+  //       alert("paymnet id", response.razorpay_paymentid);
+  //     },
+  //   };
+
+  //   const paymentObject = new window.Razorpay(options);
+  //   paymentObject.open();
+  // };
   return (
     <Wrapper>
       <div className="container">
@@ -120,9 +122,9 @@ const Cart = () => {
               <FormatPrice price={shipping_fee + total_price} />
             </p>
           </div>
-          <button className="btn btn-clear" onClick={checkOut}>
+          <Button className="btn " onClick={() => navigate("/checkout")}>
             Checkout
-          </button>
+          </Button>
         </div>
       </div>
     </Wrapper>

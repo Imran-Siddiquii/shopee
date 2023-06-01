@@ -14,6 +14,7 @@ import { PrivateRoute } from "./components/PriveteRoute";
 import { Login } from "./pages/Login";
 import { Signin } from "./pages/Signin";
 import { filterProducts } from "./Redux/Reducers/FilterProductsSlice";
+import { Checkout } from "./pages/Checkout";
 const theme = {
   colors: {
     heading: "rgb(24,24,29",
@@ -89,6 +90,7 @@ const App = () => {
                   </PrivateRoute>
                 }
               />
+              <Route exact path="/checkout" element={<Checkout />} />
               <Route path="*" exact element={<Error />} />
             </Routes>
             <Footer />
