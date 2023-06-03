@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useEffect } from "react";
 import { fetchCategoryList } from "../Redux/Reducers/CategorySlice";
 import { NavLink } from "react-router-dom";
-import FormatPrice from "../utils/FormatPrice";
 import { fetchCategoryById } from "../Redux/Reducers/FilterProductsSlice";
 
 const FeatureProduct = () => {

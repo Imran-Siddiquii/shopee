@@ -8,18 +8,28 @@ import FormatPrice from "../utils/FormatPrice";
 import { AddItemInCart } from "../Redux/Reducers/AddToCartSlice";
 import { RemoveWishlistItem } from "../Redux/Reducers/Wishlist/AddWishlistItemSlice";
 import { removeToWishlistProducts } from "../Redux/Reducers/Products";
+import { message, Popconfirm } from "antd";
 
 const WishList = () => {
+  const [messageApi, contextHolder] = message.useMessage();
   const { data } = useSelector((state) => state.WishlistItem);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchWishlist());
     // eslint-disable-next-line
   }, []);
+  const info = () => {
+    messageApi.open({
+      type: "info",
+      content: "Moved Item",
+    });
+  };
   const moveToCart = (product) => {
     const { id } = product;
     dispatch(RemoveWishlistItem(id));
     dispatch(AddItemInCart(product));
+    dispatch(removeToWishlistProducts(id));
+    info();
   };
   const removeItem = (id) => {
     dispatch(RemoveWishlistItem(id));
@@ -38,6 +48,8 @@ const WishList = () => {
   }
   return (
     <Wrapper className="section">
+      {contextHolder}
+
       <div className="container">
         <div className="common-heading">Wishlist Item</div>
         <div className="grid grid-three-column">
@@ -66,9 +78,15 @@ const WishList = () => {
                     setDecrease={setDecrease}
                     setIncrease={setIncrease}
                   /> */}
-                  <Button className="" onClick={() => removeItem(id)}>
-                    Remove
-                  </Button>
+                  <Popconfirm
+                    title="Remove item"
+                    description="Are you sure to remove this item?"
+                    okText="Yes"
+                    cancelText="No"
+                    onConfirm={() => removeItem(id)}
+                  >
+                    <Button className="">Remove</Button>
+                  </Popconfirm>
                   <Button className="" onClick={() => moveToCart(curElem)}>
                     Move To Cart
                   </Button>

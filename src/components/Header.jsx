@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "./Nav";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { search_filter } from "../Redux/Reducers/FilterProductsSlice";
 export const Header = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [searchToggle, setSearchToggle] = useState("");
   const { filter_products } = useSelector((state) => state.filter_products);
   const filterData = (event) => {

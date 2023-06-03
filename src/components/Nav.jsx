@@ -16,7 +16,7 @@ import { Logout } from "../Redux/auth";
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { total_item, cart } = useSelector((state) => state.CartItems);
+  const { cart } = useSelector((state) => state.CartItems);
   const { data } = useSelector((state) => state.WishlistItem);
   const [menuIcon, setMenuIcon] = useState();
   const Auth = localStorage.getItem("token");

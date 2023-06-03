@@ -6,15 +6,8 @@ import Loader from "../components/Loader";
 import ProductList from "../components/ProductList";
 import Sort from "../components/Sort";
 import { filterProducts } from "../Redux/Reducers/FilterProductsSlice";
-import { Spin } from "antd";
-import { useState } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 
 const Products = () => {
-  const { loading } = useSelector((state) => state.WishlistItem);
-  const [isCentered, setIsCentered] = useState(true);
-
   const dispatch = useDispatch();
   const { products, isLoading } = useSelector((state) => state.allProducts);
 
@@ -22,15 +15,6 @@ const Products = () => {
     dispatch(filterProducts(products));
     // eslint-disable-next-line
   }, [products]);
-  if (loading) {
-    return (
-      <Box
-        sx={{ display: "flex", marginTop: "12rem", justifyContent: "center" }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
   return (
     <>
       <Wrapper>

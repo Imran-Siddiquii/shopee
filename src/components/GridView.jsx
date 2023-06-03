@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import Product from "./Product";
-import { NavLink } from "react-router-dom";
-import { Button } from "../styles/Button";
 const EmptyDiv = styled.div`
   display: grid;
   place-items: center;

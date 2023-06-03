@@ -1,29 +1,18 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { FaCheck } from "react-icons/fa";
 import {
   clearFilter,
   search_filter,
 } from "../Redux/Reducers/FilterProductsSlice";
 import { Button } from "../styles/Button";
 import FormatPrice from "../utils/FormatPrice";
-import Stars from "./Stars";
 
 const FilterSection = () => {
   const dispatch = useDispatch();
   const {
     all_products,
-    searchFilter: {
-      text,
-      category,
-      company,
-      color,
-      stars,
-      minPrice,
-      maxPrice,
-      price,
-    },
+    searchFilter: { text, category, company, stars, minPrice, maxPrice, price },
   } = useSelector((state) => state.filter_products);
 
   // function to get unique value

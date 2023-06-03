@@ -1,19 +1,26 @@
 import styled from "styled-components";
-import { FaAd, FaCheck, FaSpinner } from "react-icons/fa";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../styles/Button";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AddItemInCart } from "../Redux/Reducers/AddToCartSlice";
 import { AddWishlist } from "../Redux/Reducers/Wishlist/AddWishlistItemSlice";
+import { message } from "antd";
 import {
   addToCartProducts,
   addToWishlistProducts,
 } from "../Redux/Reducers/Products";
 const AddToCart = ({ product, isCart, isWishlist }) => {
-  const { loading } = useSelector((state) => state.WishlistItem);
+  const [messageApi, contextHolder] = message.useMessage();
+
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "Added Successfully",
+    });
+  };
   const addToCart = () => {
     if (token) {
       if (product.isCart || isCart) {
@@ -21,6 +28,7 @@ const AddToCart = ({ product, isCart, isWishlist }) => {
       } else {
         dispatch(AddItemInCart(product));
         dispatch(addToCartProducts(product.id));
+        success();
       }
     } else {
       navigate("/login");
@@ -31,6 +39,7 @@ const AddToCart = ({ product, isCart, isWishlist }) => {
     if (token) {
       dispatch(addToWishlistProducts(product.id));
       dispatch(AddWishlist(product));
+      success();
     } else {
       navigate("/login");
     }
@@ -38,6 +47,7 @@ const AddToCart = ({ product, isCart, isWishlist }) => {
 
   return (
     <Wrapper>
+      {contextHolder}
       {/* add to cart  */}
       <Button className="" onClick={addToCart}>
         {isCart || product?.isCart ? "Go To Cart" : "Add To Cart"}

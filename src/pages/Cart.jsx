@@ -2,7 +2,7 @@ import styled from "styled-components";
 import CartItem from "../components/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { NavLink, Navigate, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Button } from "../styles/Button";
 import {
   GetUserCart,
@@ -35,44 +35,7 @@ const Cart = () => {
       </EmptyDiv>
     );
   }
-  const loadScript = (src) => {
-    return new Promise((resolve) => {
-      const script = document.createElement("script");
-      script.src = src;
-      script.onload = () => {
-        resolve(true);
-      };
-      script.onerror = () => {
-        resolve(false);
-      };
-      document.body.appendChild(script);
-    });
-  };
-  // const checkOut = async () => {
 
-  //   const res = await loadScript(
-  //     "https://checkout.razorpay.com/v1/checkout.js"
-  //   );
-  //   console.log("res", res);
-  //   if (!res) {
-  //     alert("please api is not giveing response");
-  //     return;
-  //   }
-  //   const options = {
-  //     key: "rzp_test_B2hkpWcDpvmbUL",
-  //     currency: "INR",
-  //     amount: total_price + shipping_fee,
-  //     name: "Wish Store",
-  //     description: "Thank for purchasing",
-  //     handler: (response) => {
-  //       console.log(response.razorpay_paymentid);
-  //       alert("paymnet id", response.razorpay_paymentid);
-  //     },
-  //   };
-
-  //   const paymentObject = new window.Razorpay(options);
-  //   paymentObject.open();
-  // };
   return (
     <Wrapper>
       <div className="container">
