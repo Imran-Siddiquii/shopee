@@ -22,7 +22,7 @@ const AddToCartSlice = createSlice({
     addItem: (state, { payload }) => {
       console.log(payload, "check item in the payload");
       const checkMultiple = payload.reduce((acc, curr) => {
-        curr.amount ? null : (curr["amount"] = 1);
+        curr = curr.amount ? null : (curr["amount"] = 1);
         acc.push(curr);
         return acc;
       }, []);
@@ -42,7 +42,7 @@ const AddToCartSlice = createSlice({
     // remove item from array
     removeItem: (state, { payload }) => {
       const checkMultiple = payload.reduce((acc, curr) => {
-        curr.amount ? null : (curr["amount"] = 1);
+        curr = curr.amount ? null : (curr["amount"] = 1);
         acc.push(curr);
         return acc;
       }, []);
