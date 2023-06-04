@@ -7,7 +7,10 @@ import { NavLink } from "react-router-dom";
 import FormatPrice from "../utils/FormatPrice";
 import { AddItemInCart } from "../Redux/Reducers/AddToCartSlice";
 import { RemoveWishlistItem } from "../Redux/Reducers/Wishlist/AddWishlistItemSlice";
-import { removeToWishlistProducts } from "../Redux/Reducers/Products";
+import {
+  addToCartProducts,
+  removeToWishlistProducts,
+} from "../Redux/Reducers/Products";
 import { message, Popconfirm } from "antd";
 
 const WishList = () => {
@@ -29,6 +32,7 @@ const WishList = () => {
     dispatch(RemoveWishlistItem(id));
     dispatch(AddItemInCart(product));
     dispatch(removeToWishlistProducts(id));
+    dispatch(addToCartProducts(product.id));
     info();
   };
   const removeItem = (id) => {

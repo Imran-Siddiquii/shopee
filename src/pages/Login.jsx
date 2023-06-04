@@ -4,14 +4,19 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 import styled from "styled-components";
 import { LoginAuth } from "../Redux/auth";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
+import { useEffect } from "react";
+import { message } from "antd";
 
 export const Login = () => {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
-
-  const { isLoading } = useSelector((state) => state.Auth);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isLoading, token, isError, data } = useSelector(
+    (state) => state.Auth
+  );
   const [formData, setformData] = useState({
     email: "",
     password: "",
@@ -21,7 +26,26 @@ export const Login = () => {
     e.preventDefault();
     dispatch(LoginAuth({ email, password }));
   };
+  const [messageApi, contextHolder] = message.useMessage();
 
+  const error = () => {
+    messageApi.open({
+      type: "error",
+      content: "The credentials you entered are invalid",
+    });
+  };
+  useEffect(() => {
+    console.log(location, "locations", data.length, "");
+    if (token) {
+      navigate(location?.state?.from?.pathname);
+    }
+    if (isError) {
+      error();
+    }
+    if (data.id && !location.state) {
+      navigate("/");
+    }
+  }, [token, isError, data]);
   const handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -34,6 +58,7 @@ export const Login = () => {
   return (
     <>
       <Wrapper>
+        {contextHolder}
         <div className="container">
           <div className="contact-form">
             <form onSubmit={handleSubmit} className="contact-inputs">
@@ -45,7 +70,7 @@ export const Login = () => {
                 required
                 onChange={handleChange}
               />
-              <div id="input_group">
+              <div id="groups">
                 <label id="label" htmlFor="">
                   {!showPassword ? (
                     <FaEyeSlash
@@ -69,7 +94,7 @@ export const Login = () => {
                   required
                   onChange={handleChange}
                   style={{ height: "5rem", paddingLeft: "2.5rem" }}
-                  className="input-search"
+                  // className="input-search"
                 />
               </div>
               <NavLink to="/signin">Create new account?</NavLink>
@@ -98,8 +123,12 @@ const Wrapper = styled.section`
         display: flex;
         flex-direction: column;
         gap: 2rem;
+        #groups {
+          position: relative;
+        }
         input {
           text-transform: none;
+          width: 100%;
         }
 
         input[type="submit"] {

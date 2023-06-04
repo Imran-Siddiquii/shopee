@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { GlobalStyle } from "./GlobalStyle";
 import { ThemeProvider } from "styled-components";
@@ -36,66 +36,67 @@ const theme = {
   media: { mobile: "768px", tab: "998px" },
 };
 const App = () => {
-  const { products, isLoading } = useSelector((state) => state.allProducts);
+  const { products } = useSelector((state) => state.allProducts);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchProducts());
     dispatch(fetchCategory());
-    // eslint-disable-next-line
     dispatch(filterProducts(products));
-  }, []);
-  useEffect(() => {
     // eslint-disable-next-line
-  }, [products]);
+  }, []);
+
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Router>
-          <ScrollToTop />
-          {/* <ScrollRestoration
-            getKey={(location) => {
-              return location.pathname;
-            }}
-          /> */}
-          <GlobalStyle />
-          <Suspense fallback={<Loader />}>
-            <Header />
-            <Routes>
-              <Route exact path="/" element={<Home />} />
-              <Route exact path="/products" element={<Products />} />
+        <ScrollToTop />
 
-              <Route exact path="/cart" element={<Cart />} />
+        <GlobalStyle />
+        <Suspense fallback={<Loader />}>
+          <Header />
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/products" element={<Products />} />
 
-              <Route
-                exact
-                path="/single-product/:id"
-                element={<SingleProduct />}
-              />
-              <Route exact path="/wishlist" element={<WishList />} />
-              <Route
-                path="/login"
-                exact
-                element={
-                  <PrivateRoute>
-                    <Login />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/signin"
-                exact
-                element={
-                  <PrivateRoute>
-                    <Signin />
-                  </PrivateRoute>
-                }
-              />
-              <Route exact path="/checkout" element={<Checkout />} />
-              <Route path="*" exact element={<Error />} />
-            </Routes>
-            <Footer />
-          </Suspense>
-        </Router>
+            <Route
+              exact
+              path="/cart"
+              element={
+                <PrivateRoute>
+                  <Cart />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              exact
+              path="/single-product/:id"
+              element={<SingleProduct />}
+            />
+            <Route
+              exact
+              path="/wishlist"
+              element={
+                <PrivateRoute>
+                  <WishList />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/login" exact element={<Login />} />
+            <Route path="/signin" exact element={<Signin />} />
+            <Route
+              exact
+              path="/checkout"
+              element={
+                <PrivateRoute>
+                  <Checkout />
+                </PrivateRoute>
+              }
+            />
+            <Route path="*" exact element={<Error />} />
+          </Routes>
+          <Footer />
+        </Suspense>
       </ThemeProvider>
     </>
   );

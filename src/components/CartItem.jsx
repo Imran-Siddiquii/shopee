@@ -10,7 +10,10 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { AiOutlineHeart } from "react-icons/ai";
 import { AddWishlist } from "../Redux/Reducers/Wishlist/AddWishlistItemSlice";
-import { removeToCartProducts } from "../Redux/Reducers/Products";
+import {
+  addToWishlistProducts,
+  removeToCartProducts,
+} from "../Redux/Reducers/Products";
 import { message, Popconfirm } from "antd";
 const CartItem = ({ id, name, image, price, amount, stock }) => {
   const { products } = useSelector((state) => state.allProducts);
@@ -31,6 +34,9 @@ const CartItem = ({ id, name, image, price, amount, stock }) => {
     const findItemInProducts = products.find((ele) => ele.id === id);
     dispatch(AddWishlist(findItemInProducts));
     dispatch(RemoveCartItem(id));
+    dispatch(addToWishlistProducts(id));
+    dispatch(removeToCartProducts(id));
+
     success();
   };
   return (

@@ -31,19 +31,25 @@ export default Auth.reducer;
 export const LoginAuth = (credentail) => {
   return async function getdate(dispatch) {
     dispatch(Loading(true));
+    dispatch(Error(false));
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         body: JSON.stringify(credentail),
       });
-
-      const data = await res.json();
       dispatch(Loading(false));
-      localStorage.setItem("token", data.encodedToken);
-      dispatch(AuthResponse(data));
+
+      if (!res.ok) {
+        dispatch(Error(true));
+      } else {
+        dispatch(Error(false));
+        const data = await res.json();
+        localStorage.setItem("token", data.encodedToken);
+        dispatch(AuthResponse(data));
+      }
     } catch (error) {
       dispatch(Loading(false));
-      dispatch(Error());
+      dispatch(Error(true));
     }
   };
 };
@@ -51,19 +57,24 @@ export const LoginAuth = (credentail) => {
 export const signInAuth = (credentail) => {
   return async function getdate(dispatch) {
     dispatch(Loading(true));
+    dispatch(Error(false));
     try {
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         body: JSON.stringify(credentail),
       });
-
-      const data = await res.json();
       dispatch(Loading(false));
-      localStorage.setItem("token", data.encodedToken);
-      dispatch(AuthResponse(data));
+      if (!res.ok) {
+        dispatch(Error(true));
+      } else {
+        dispatch(Error(false));
+        const data = await res.json();
+        localStorage.setItem("token", data.encodedToken);
+        dispatch(AuthResponse(data));
+      }
     } catch (error) {
       dispatch(Loading(false));
-      dispatch(Error());
+      dispatch(Error(true));
     }
   };
 };

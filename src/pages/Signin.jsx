@@ -2,11 +2,16 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signInAuth } from "../Redux/auth";
+import { message } from "antd";
+import { useEffect } from "react";
 
 export const Signin = () => {
   const dispatch = useDispatch();
+  const [messageApi, contextHolder] = message.useMessage();
+  const { isError } = useSelector((state) => state.Auth);
+
   const [formData, setFormData] = useState({
     firstName: "",
     email: "",
@@ -16,6 +21,12 @@ export const Signin = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [passwordError, setPasswordError] = useState("");
+
+  useEffect(() => {
+    if (isError) {
+      error();
+    }
+  }, [isError]);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -38,8 +49,16 @@ export const Signin = () => {
     }
   };
 
+  const error = () => {
+    messageApi.open({
+      type: "error",
+      content: "The credentials you entered are invalid",
+    });
+  };
+
   return (
     <Wrapper>
+      {contextHolder}
       <div className="container">
         <div className="contact-form">
           <form className="contact-inputs" onSubmit={handleSignup}>
@@ -67,7 +86,7 @@ export const Signin = () => {
               onChange={handleInputChange}
               required
             />
-            <div id="input_group">
+            <div id="groups">
               <label id="label" htmlFor="">
                 {!showPassword ? (
                   <FaEyeSlash
@@ -91,7 +110,7 @@ export const Signin = () => {
                 onChange={handleInputChange}
                 required
                 style={{ height: "5rem", paddingLeft: "2.5rem" }}
-                className="input-search"
+                // className="input-search"
               />
             </div>
             <input
@@ -129,8 +148,12 @@ const Wrapper = styled.section`
         display: flex;
         flex-direction: column;
         gap: 2rem;
+        #groups {
+          position: relative;
+        }
         input {
           text-transform: none;
+          width: 100%;
         }
         input[type="submit"] {
           cursor: pointer;
