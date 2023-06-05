@@ -12,6 +12,25 @@ import { Button } from "../styles/Button";
 import { notification } from "antd";
 import { useNavigate } from "react-router-dom";
 
+const Column = styled.div`
+  width: 60%;
+  text-align: center;
+  margin: 0 auto;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
+`;
+
+const Column2 = styled.div`
+  width: 40%;
+  margin: 0 auto;
+  height: 20vh;
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
+`;
+
 export const Checkout = () => {
   const { cart, total_price, shipping_fee } = useSelector(
     (state) => state.CartItems
@@ -93,11 +112,20 @@ export const Checkout = () => {
     <>
       {contextHolder}
       <Container>
-        <FirstColumn>
-          <FirstRow>
+        <Column>
+          <Address editItem={update?.length ? update[0] : false} />
+        </Column>
+        {/* 
+          <SecondRow>
+          </SecondRow>
+        */}
+        <Column2>
+          <AddressWrapper>
             {place.length ? (
               <>
-                <h1>Item will be deliver on Selected address</h1>
+                <h1 style={{ margin: "20px 0px 20px 0px" }}>
+                  Item will be deliver on Selected address
+                </h1>
                 {place?.map((item) => (
                   <ListItem key={item.id}>
                     <Label>
@@ -134,15 +162,10 @@ export const Checkout = () => {
                 Please add address to deliver items
               </h1>
             )}
-            {}
-          </FirstRow>
-          <SecondRow>
-            <Address editItem={update?.length ? update[0] : false} />
-          </SecondRow>
-        </FirstColumn>
-        <SecondColumn>
+          </AddressWrapper>
           <CenteredDiv>
             <div className="order-total--subdata">
+              <div></div>
               <h1>Total Item </h1>
               <Table>
                 <thead>
@@ -194,23 +217,25 @@ export const Checkout = () => {
               )}
             </div>
           </CenteredDiv>
-        </SecondColumn>
+        </Column2>
       </Container>
     </>
   );
 };
 
 const UpdateIcon = styled(RiPencilFill)`
-  margin-right: 5px;
+  margin-left: 5px;
   cursor: pointer;
-  color: green;
-  font-size: 2rem;
+  color: ${({ theme }) => theme.colors.btn};
+  font-size: 1.5rem;
 `;
-
+const AddressWrapper = styled.div`
+  padding: 2rem;
+`;
 const DeleteIcon = styled.span`
-  margin-right: 0px;
-  align-text: right;
-  font-size: 2rem;
+  margin-left: 5px;
+  ${"" /* align-text: right; */}
+  font-size: 1.2rem;
   cursor: pointer;
   color: "red";
 `;
@@ -223,7 +248,7 @@ const ListItem = styled.div`
   margin-bottom: 10px;
 
   .remove_icon {
-    font-size: 2rem;
+    font-size: 1.2rem;
     color: #e74c3c;
     cursor: pointer;
   }
@@ -267,25 +292,7 @@ const ListAddress = styled.span`
 const Container = styled.div`
   display: flex;
   height: 100vh;
-`;
-
-const FirstColumn = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-`;
-
-const FirstRow = styled.div`
-  margin: 1rem 2rem;
-  flex: 20;
-  h1 {
-    margin-bottom: 2rem;
-  }
-`;
-
-const SecondRow = styled.div`
-  flex: 80;
-  background-color: #d9d9d9;
+  flex-wrap: wrap;
 `;
 
 const SecondColumn = styled.div`
@@ -304,8 +311,9 @@ const SecondColumn = styled.div`
 
 const CenteredDiv = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-wrap:wrap;
+   justify-content: center; 
+   ${"" /* align-items: center; */}
   height: 100%;
   width: 90%;
   margin: 0 auto;
